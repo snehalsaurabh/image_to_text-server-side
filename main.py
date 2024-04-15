@@ -1,17 +1,18 @@
 import os
 import shutil
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
+
+from gemini_image.model import generate_description
 
 app = FastAPI()
 
 
 @app.post("/upload/")
-async def upload_file(file: UploadFile = File(...)):
-    with open(f"{file.filename}", "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+async def upload_file(url: str = Query(...)):
+    resp = generate_description(url)
 
-    # Open the file
-    os.startfile(file.filename)
-
-    return {"filename": file.filename}
+    return {
+        "url": url,
+        "description": resp,
+    }

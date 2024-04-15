@@ -2,3 +2,5 @@
 /__pycache__
 /venv
 *.jpeg
+*.env
+/gemini_image/__pycache__
