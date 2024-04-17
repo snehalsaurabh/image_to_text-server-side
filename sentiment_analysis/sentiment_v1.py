@@ -12,7 +12,7 @@ import nltk
 nltk.download('stopwords')
 
 # Load the trained model
-loaded_model = pickle.load(open('trained_model.sav', 'rb'))
+loaded_model = pickle.load(open('sentiment_analysis/trained_model.sav', 'rb'))
 
 # Preprocessing function
 def stemming(content):
@@ -24,23 +24,24 @@ def stemming(content):
     stemmed_content = ' '.join(stemmed_content)
     return stemmed_content
 
-# Custom text input
-custom_text = "Your custom text here."
+def predict_sentiment(description):
+    # Preprocess the description
+    preprocessed_text = stemming(description)
 
-# Preprocess the custom text
-stemmed_custom_text = stemming(custom_text)
+    # Load the TF-IDF vectorizer
+    vectorizer = pickle.load(open('sentiment_analysis/tfidf_vectorizer.sav', 'rb'))
 
-# Load the TF-IDF vectorizer
-vectorizer = pickle.load(open('tfidf_vectorizer.sav', 'rb'))
+    # Transform the preprocessed text using the loaded vectorizer
+    X_new = vectorizer.transform([preprocessed_text])
 
-# Transform the custom text using the loaded vectorizer
-X_new = vectorizer.transform([stemmed_custom_text])
+    # Make prediction
+    prediction = loaded_model.predict(X_new)
 
-# Make prediction
-prediction = loaded_model.predict(X_new)
+    # Convert prediction to a native Python type
+    sentiment_prediction = int(prediction[0])  # Assuming prediction is binary
 
-# Output the result
-if prediction[0] == 0:
-    print(random.randint(0,4))
-else:
-    print('5')
+    return sentiment_prediction
+
+
+
+
