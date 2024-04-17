@@ -6,7 +6,6 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-import random
 
 import nltk
 nltk.download('stopwords')
@@ -39,6 +38,10 @@ def predict_sentiment(description):
 
     # Convert prediction to a native Python type
     sentiment_prediction = int(prediction[0])  # Assuming prediction is binary
+
+    if sentiment_prediction == 0:
+        pseudo_random_number = hash(description) % 5
+        sentiment_prediction = pseudo_random_number
 
     return sentiment_prediction
 
