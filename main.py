@@ -17,3 +17,4 @@ async def upload_file(url: str = Query(...)):
         "description": resp,
         "sentiment": sentiment_prediction
     }
+
