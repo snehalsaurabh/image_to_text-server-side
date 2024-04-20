@@ -5,3 +5,7 @@ google-generativeai
 python-dotenv
 ipython
 pillow
+numpy
+pandas
+nltk
+scikit-learn
